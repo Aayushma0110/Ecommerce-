@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=root
+      - DB_DATABASE=Ecommerce
+      - DATABASE_URL=postgres://postgres:root@db:5432/Ecommerce
+      - JWT_SECRET=123ABC
+      - CLOUDINARY_CLOUD_NAME=dhztrlljb
+      - CLOUDINARY_API_KEY=661868191698613
+      - CLOUDINARY_API_SECRET=g1dHMiCE8r_yn6VhkCQgEkQdGyM
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=Ecommerce
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+    driver: local
